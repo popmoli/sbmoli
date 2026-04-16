@@ -1,0 +1,104 @@
+/* ============================================================
+   win95.css — Windows 95 chrome components (dark variant)
+   ============================================================ */
+
+/* ── Window container ───────────────────────────────────────── */
+
+.w95-window {
+  background: var(--w95-bg);
+  box-shadow: var(--bevel-raised);
+}
+
+/* ── Title bar ──────────────────────────────────────────────── */
+
+.w95-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(to right, var(--w95-titlebar) 0%, #3a3aae 100%);
+  padding: 3px 4px 3px 6px;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.w95-titlebar-title {
+  font-family: var(--sys-font);
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: var(--w95-titlebar-text);
+  letter-spacing: 0.03em;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.w95-titlebar-controls {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+/* ── Buttons ────────────────────────────────────────────────── */
+
+.w95-btn {
+  font-family: var(--sys-font);
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 1px 6px;
+  min-width: 18px;
+  height: 18px;
+  background: var(--w95-btn-face);
+  color: var(--text);
+  border: none;
+  cursor: pointer;
+  box-shadow: var(--bevel-raised);
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.w95-btn:active {
+  box-shadow: var(--bevel-sunken);
+  padding-top: 2px;
+  padding-left: 7px;
+}
+
+.w95-btn:hover {
+  background: #3a3a5e;
+}
+
+/* ── Window body (sunken content area) ─────────────────────── */
+
+.w95-window-body {
+  padding: 8px;
+  box-shadow: var(--bevel-sunken);
+  margin: 4px;
+  background: var(--surface);
+}
+
+/* ── Status bar ─────────────────────────────────────────────── */
+
+.w95-statusbar {
+  display: flex;
+  gap: 2px;
+  padding: 2px 4px;
+  border-top: 1px solid var(--w95-border-mid);
+  flex-shrink: 0;
+}
+
+.w95-statusbar-pane {
+  font-family: var(--sys-font);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  padding: 1px 6px;
+  box-shadow: var(--bevel-sunken);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

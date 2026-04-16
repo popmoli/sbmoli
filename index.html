@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photography Portfolio</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="win95.css" />
+</head>
+<body>
+  <nav id="nav"></nav>
+  <header id="hero"></header>
+  <main id="projects"></main>
+  <section id="about"></section>
+  <section id="contact"></section>
+  <footer id="footer"></footer>
+  <div id="lightbox" aria-hidden="true" role="dialog" aria-label="Photo viewer">
+    <div class="lb-dialog w95-window">
+
+      <div class="w95-titlebar lb-titlebar">
+        <span class="w95-titlebar-title lb-title-text">Photo Viewer</span>
+        <div class="w95-titlebar-controls">
+          <button class="w95-btn" id="lb-close" aria-label="Close">&#x2715;</button>
+        </div>
+      </div>
+
+      <div class="lb-body">
+
+        <div class="lb-photo-panel">
+          <button class="lb-arrow w95-btn" id="lb-prev" aria-label="Previous">&#9664;</button>
+          <div class="lb-img-frame w95-window-body">
+            <img id="lb-img" src="" alt="" />
+          </div>
+          <button class="lb-arrow w95-btn" id="lb-next" aria-label="Next">&#9654;</button>
+        </div>
+
+        <div class="lb-meta-panel">
+          <div class="lb-caption-box w95-window-body">
+            <p id="lb-caption"></p>
+          </div>
+          <div class="lb-spotify-box">
+            <div class="w95-titlebar" style="margin-bottom:4px;">
+              <span class="w95-titlebar-title">&#127925; Now Playing</span>
+            </div>
+            <iframe
+              id="lb-spotify"
+              style="border-radius:0"
+              src=""
+              width="100%"
+              height="80"
+              frameborder="0"
+              allowfullscreen=""
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            ></iframe>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="w95-statusbar">
+        <span class="w95-statusbar-pane" id="lb-status">Ready</span>
+      </div>
+
+    </div>
+  </div>
+  <script src="main.js" type="module"></script>
+</body>
+</html>

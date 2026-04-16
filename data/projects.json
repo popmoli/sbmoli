@@ -1,0 +1,86 @@
+[
+  {
+    "id": "urban-decay",
+    "title": "Urban Decay",
+    "description": "Street photography in abandoned industrial zones.",
+    "aiPrompt": "You are writing captions for a photography portfolio. For each photo in the 'Urban Decay' series (street photography in abandoned industrial zones), write a short poetic caption of exactly 2 sentences. Tone: melancholic, cinematic, contemplative. Do not use the word 'decay'. Return a JSON array of strings, one per photo, in order.",
+    "photos": [
+      {
+        "file": "urban-decay/01.jpg",
+        "alt": "Rusted corridor",
+        "caption": "Light filters through iron bones, casting amber shadows no one asked for. Time stopped mid-sentence here, and the silence has learned to echo.",
+        "spotifyId": "4uLU6hMCjMI75M1A2tKUQC"
+      },
+      {
+        "file": "urban-decay/02.jpg",
+        "alt": "Broken window light",
+        "caption": "Every shard holds a different sky, refracting what was into what remains. The frame is gone but the light still insists on entering.",
+        "spotifyId": "1dGr9ZbNXcYVRBoEWLMKbJ"
+      },
+      {
+        "file": "urban-decay/03.jpg",
+        "alt": "Overgrown tracks",
+        "caption": "The rails go nowhere now, yet something in them still suggests momentum. Green reclaims what steel once promised to connect forever.",
+        "spotifyId": "7ouMYWpwJ422jRcDASZB7P"
+      },
+      {
+        "file": "urban-decay/04.jpg",
+        "alt": "Empty factory floor",
+        "caption": "The machines have been quiet long enough to become architecture. This floor once knew urgency — now it only knows dust and light.",
+        "spotifyId": "4uLU6hMCjMI75M1A2tKUQC"
+      }
+    ]
+  },
+  {
+    "id": "golden-hour",
+    "title": "Golden Hour",
+    "description": "Portraits and landscapes shot in the last hour of daylight.",
+    "aiPrompt": "You are writing captions for a photography portfolio. For each photo in the 'Golden Hour' series (portraits and landscapes in the last hour of daylight), write a short poetic caption of exactly 2 sentences. Tone: warm, luminous, slightly nostalgic. Return a JSON array of strings, one per photo, in order.",
+    "photos": [
+      {
+        "file": "golden-hour/01.jpg",
+        "alt": "Portrait at dusk",
+        "caption": "She turned away from the sun and the sun refused to leave her. In that hour, the light forgot to be light and became something else entirely.",
+        "spotifyId": "3n3Ppam7vgaVa1iaRUIOKE"
+      },
+      {
+        "file": "golden-hour/02.jpg",
+        "alt": "Field silhouette",
+        "caption": "The field swallowed the figure slowly, the way all warm things disappear. What remained was the outline of a question the horizon had already answered.",
+        "spotifyId": "5ghIJDpPoe3CfHMGu71E6T"
+      },
+      {
+        "file": "golden-hour/03.jpg",
+        "alt": "Coastal rocks",
+        "caption": "The sea caught fire for exactly seven minutes and no one could explain it. The rocks have held the memory since, smooth and patient and burning.",
+        "spotifyId": "0VjIjW4GlUZAMYd2vXMi3b"
+      }
+    ]
+  },
+  {
+    "id": "midnight-city",
+    "title": "Midnight City",
+    "description": "Long-exposure urban photography shot between midnight and 4am.",
+    "aiPrompt": "You are writing captions for a photography portfolio. For each photo in the 'Midnight City' series (long-exposure urban photography between midnight and 4am), write a short poetic caption of exactly 2 sentences. Tone: electric, lonely, quietly beautiful. Return a JSON array of strings, one per photo, in order.",
+    "photos": [
+      {
+        "file": "midnight-city/01.jpg",
+        "alt": "Wet street reflections",
+        "caption": "The rain left a second city beneath the first, brighter and more honest. Every car that passed rewrote it, and every car was forgiven.",
+        "spotifyId": "7ouMYWpwJ422jRcDASZB7P"
+      },
+      {
+        "file": "midnight-city/02.jpg",
+        "alt": "Neon shopfront",
+        "caption": "Open all night means something different at 3am — it means someone stayed. The sign hums in a key no instrument claims.",
+        "spotifyId": "3n3Ppam7vgaVa1iaRUIOKE"
+      },
+      {
+        "file": "midnight-city/03.jpg",
+        "alt": "Empty intersection",
+        "caption": "Four directions with no one to choose between them, the traffic light cycles anyway. Red, green, red — a conversation with an absent city.",
+        "spotifyId": "5ghIJDpPoe3CfHMGu71E6T"
+      }
+    ]
+  }
+]
