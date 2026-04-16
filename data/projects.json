@@ -1,58 +1,44 @@
 [
   {
-    "id": "urban-decay",
-    "title": "Urban Decay",
-    "description": "Street photography in abandoned industrial zones.",
-    "aiPrompt": "You are writing captions for a photography portfolio. For each photo in the 'Urban Decay' series (street photography in abandoned industrial zones), write a short poetic caption of exactly 2 sentences. Tone: melancholic, cinematic, contemplative. Do not use the word 'decay'. Return a JSON array of strings, one per photo, in order.",
-    "photos": [
-      {
-        "file": "urban-decay/01.jpg",
-        "alt": "Rusted corridor",
-        "caption": "Light filters through iron bones, casting amber shadows no one asked for. Time stopped mid-sentence here, and the silence has learned to echo.",
-        "spotifyId": "4uLU6hMCjMI75M1A2tKUQC"
-      },
-      {
-        "file": "urban-decay/02.jpg",
-        "alt": "Broken window light",
-        "caption": "Every shard holds a different sky, refracting what was into what remains. The frame is gone but the light still insists on entering.",
-        "spotifyId": "1dGr9ZbNXcYVRBoEWLMKbJ"
-      },
-      {
-        "file": "urban-decay/03.jpg",
-        "alt": "Overgrown tracks",
-        "caption": "The rails go nowhere now, yet something in them still suggests momentum. Green reclaims what steel once promised to connect forever.",
-        "spotifyId": "7ouMYWpwJ422jRcDASZB7P"
-      },
-      {
-        "file": "urban-decay/04.jpg",
-        "alt": "Empty factory floor",
-        "caption": "The machines have been quiet long enough to become architecture. This floor once knew urgency — now it only knows dust and light.",
-        "spotifyId": "4uLU6hMCjMI75M1A2tKUQC"
-      }
-    ]
-  },
-  {
     "id": "golden-hour",
     "title": "Golden Hour",
     "description": "Portraits and landscapes shot in the last hour of daylight.",
     "aiPrompt": "You are writing captions for a photography portfolio. For each photo in the 'Golden Hour' series (portraits and landscapes in the last hour of daylight), write a short poetic caption of exactly 2 sentences. Tone: warm, luminous, slightly nostalgic. Return a JSON array of strings, one per photo, in order.",
     "photos": [
       {
-        "file": "golden-hour/R0640356.jpg",
-        "alt": "Portrait at dusk",
+        "file": "golden-hour/R0590473.jpg",
+        "alt": "Golden hour 1",
         "caption": "She turned away from the sun and the sun refused to leave her. In that hour, the light forgot to be light and became something else entirely.",
         "spotifyId": "3n3Ppam7vgaVa1iaRUIOKE"
       },
       {
-        "file": "golden-hour/02.jpg",
-        "alt": "Field silhouette",
+        "file": "golden-hour/R0590903.jpg",
+        "alt": "Golden hour 2",
         "caption": "The field swallowed the figure slowly, the way all warm things disappear. What remained was the outline of a question the horizon had already answered.",
         "spotifyId": "5ghIJDpPoe3CfHMGu71E6T"
       },
       {
-        "file": "golden-hour/03.jpg",
-        "alt": "Coastal rocks",
+        "file": "golden-hour/R0592272.jpg",
+        "alt": "Golden hour 3",
         "caption": "The sea caught fire for exactly seven minutes and no one could explain it. The rocks have held the memory since, smooth and patient and burning.",
+        "spotifyId": "0VjIjW4GlUZAMYd2vXMi3b"
+      },
+      {
+        "file": "golden-hour/R0620211.jpg",
+        "alt": "Golden hour 4",
+        "caption": "Light arrived sideways that evening, the way truth sometimes does. Everything it touched became temporary and precious at once.",
+        "spotifyId": "3n3Ppam7vgaVa1iaRUIOKE"
+      },
+      {
+        "file": "golden-hour/R0640356.jpg",
+        "alt": "Golden hour 5",
+        "caption": "The last twenty minutes of sun are a different country entirely. She walked through it without knowing she would never return.",
+        "spotifyId": "5ghIJDpPoe3CfHMGu71E6T"
+      },
+      {
+        "file": "golden-hour/R0641518.jpg",
+        "alt": "Golden hour 6",
+        "caption": "Even the shadows were warm that day, which is something you only notice once it's gone. The camera caught it; the memory already had.",
         "spotifyId": "0VjIjW4GlUZAMYd2vXMi3b"
       }
     ]
@@ -64,22 +50,52 @@
     "aiPrompt": "You are writing captions for a photography portfolio. For each photo in the 'Midnight City' series (long-exposure urban photography between midnight and 4am), write a short poetic caption of exactly 2 sentences. Tone: electric, lonely, quietly beautiful. Return a JSON array of strings, one per photo, in order.",
     "photos": [
       {
-        "file": "midnight-city/01.jpg",
-        "alt": "Wet street reflections",
+        "file": "midnight-city/R0590587.jpg",
+        "alt": "Midnight city 1",
         "caption": "The rain left a second city beneath the first, brighter and more honest. Every car that passed rewrote it, and every car was forgiven.",
         "spotifyId": "7ouMYWpwJ422jRcDASZB7P"
       },
       {
-        "file": "midnight-city/02.jpg",
-        "alt": "Neon shopfront",
+        "file": "midnight-city/R0591544.jpg",
+        "alt": "Midnight city 2",
         "caption": "Open all night means something different at 3am — it means someone stayed. The sign hums in a key no instrument claims.",
         "spotifyId": "3n3Ppam7vgaVa1iaRUIOKE"
       },
       {
-        "file": "midnight-city/03.jpg",
-        "alt": "Empty intersection",
+        "file": "midnight-city/R0591562.jpg",
+        "alt": "Midnight city 3",
         "caption": "Four directions with no one to choose between them, the traffic light cycles anyway. Red, green, red — a conversation with an absent city.",
         "spotifyId": "5ghIJDpPoe3CfHMGu71E6T"
+      },
+      {
+        "file": "midnight-city/R0630645.jpg",
+        "alt": "Midnight city 4",
+        "caption": "At 2am the city stops performing and just exists. These lights were never meant to be beautiful; that is exactly why they are.",
+        "spotifyId": "7ouMYWpwJ422jRcDASZB7P"
+      },
+      {
+        "file": "midnight-city/R0630691.jpg",
+        "alt": "Midnight city 5",
+        "caption": "The exposure was thirty seconds but the feeling lasted longer. Something about the stillness of a moving city.",
+        "spotifyId": "3n3Ppam7vgaVa1iaRUIOKE"
+      },
+      {
+        "file": "midnight-city/R0630791.jpg",
+        "alt": "Midnight city 6",
+        "caption": "Streets remember every foot that ever crossed them; at night they finally have room to think. The pavement was wet with something other than rain.",
+        "spotifyId": "5ghIJDpPoe3CfHMGu71E6T"
+      },
+      {
+        "file": "midnight-city/R0630857.jpg",
+        "alt": "Midnight city 7",
+        "caption": "There is a particular loneliness in neon that daylight cannot replicate. This corner held it perfectly, without trying.",
+        "spotifyId": "7ouMYWpwJ422jRcDASZB7P"
+      },
+      {
+        "file": "midnight-city/R0630860.jpg",
+        "alt": "Midnight city 8",
+        "caption": "The last frame of the night is always the truest. By then the city has forgotten you are watching.",
+        "spotifyId": "3n3Ppam7vgaVa1iaRUIOKE"
       }
     ]
   }

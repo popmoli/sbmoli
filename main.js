@@ -2,8 +2,7 @@
    main.js — Photography Portfolio (Bold + Wonky Win95)
    ============================================================ */
 
-const ACCENTS   = ['#FF2D78', '#FFE600', '#00E5FF', '#B4FF3C', '#FF6B00'];
-const TILTS     = [-2.2, 1.6, -1.1, 2.4, -1.8, 0.9, -2.8, 1.3];
+const ACCENTS = ['#FF2D78', '#FFE600', '#00E5FF', '#B4FF3C', '#FF6B00'];
 
 async function init() {
   const res = await fetch('./data/projects.json');
@@ -38,18 +37,22 @@ function renderNav(projects) {
 function renderProjects(projects) {
   const container = document.getElementById('projects');
   container.innerHTML = projects.map((project, pi) => {
-    const tilt   = TILTS[pi % TILTS.length];
     const accent = ACCENTS[pi % ACCENTS.length];
+    const index  = String(pi + 1).padStart(2, '0');
     return `
-    <section class="project-section" id="project-${project.id}" style="--tilt:${tilt}deg">
-      <span class="project-label" style="color:${accent}">${project.title}</span>
-      <div class="w95-window" style="--window-accent:${accent}88">
+    <section class="project-section" id="project-${project.id}" style="--project-accent:${accent}">
+      <span class="project-index" aria-hidden="true">${index}</span>
+      <div class="project-header">
+        <span class="project-label">${project.title}</span>
+        <span class="project-counter">${index} / ${String(projects.length).padStart(2,'0')} &mdash; ${project.photos.length} frames</span>
+      </div>
+      <div class="w95-window" style="--window-accent:${accent}66">
         <div class="w95-titlebar">
-          <span class="w95-titlebar-title">&#128444;&nbsp;${project.title}.jpg</span>
+          <span class="w95-titlebar-title">&#128444;&nbsp;${project.title}.exe</span>
           <div class="w95-titlebar-controls">
             <button class="w95-btn" aria-label="Minimize" tabindex="-1">_</button>
             <button class="w95-btn" aria-label="Maximize" tabindex="-1">&#9633;</button>
-            <button class="w95-btn w95-btn-close" aria-label="Close" tabindex="-1" style="color:${accent}">&#x2715;</button>
+            <button class="w95-btn" aria-label="Close" tabindex="-1" style="color:${accent}">&#x2715;</button>
           </div>
         </div>
         <div class="w95-window-body">
@@ -79,6 +82,7 @@ function renderProjects(projects) {
         <div class="w95-statusbar">
           <span class="w95-statusbar-pane">${project.photos.length} object(s)</span>
           <span class="w95-statusbar-pane" style="color:${accent}">${project.id}</span>
+          <span class="w95-statusbar-pane">Ready</span>
         </div>
       </div>
     </section>`;
