@@ -38,7 +38,7 @@
     "aiPrompt": "You are writing captions for a photography portfolio. For each photo in the 'Golden Hour' series (portraits and landscapes in the last hour of daylight), write a short poetic caption of exactly 2 sentences. Tone: warm, luminous, slightly nostalgic. Return a JSON array of strings, one per photo, in order.",
     "photos": [
       {
-        "file": "golden-hour/01.jpg",
+        "file": "golden-hour/R0640356.jpg",
         "alt": "Portrait at dusk",
         "caption": "She turned away from the sun and the sun refused to leave her. In that hour, the light forgot to be light and became something else entirely.",
         "spotifyId": "3n3Ppam7vgaVa1iaRUIOKE"
