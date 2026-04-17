@@ -2,6 +2,8 @@
    main.js — Photography Portfolio (Bold + Wonky Win95)
    ============================================================ */
 
+import { initCornerGif } from './corner-gif.js';
+
 const ACCENTS = ['#FF2D78', '#FFE600', '#00E5FF', '#B4FF3C', '#FF6B00'];
 
 async function init() {
@@ -14,6 +16,7 @@ async function init() {
   renderContact();
   renderFooter();
   initLightbox(projects);
+  initCornerGif();
 }
 
 /* ── Navigation ─────────────────────────────────────────────── */

@@ -496,3 +496,98 @@ body::after {
 }
 
 .lb-spotify-box { flex-shrink: 0; }
+
+/* ── Corner GIF widget ──────────────────────────────────────── */
+
+#corner-gif {
+  position: fixed;
+  top: 72px;        /* just below nav */
+  right: 16px;
+  z-index: 90;
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  /* Win95 window chrome */
+  box-shadow: var(--bevel-raised);
+  background: var(--w95-bg);
+  border: 2px solid #000;
+  cursor: default;
+  user-select: none;
+  /* Subtle wobble to feel like a real animated GIF widget */
+  animation: gifWobble 8s ease-in-out infinite;
+}
+
+@keyframes gifWobble {
+  0%, 100% { transform: translateY(0px);   }
+  25%       { transform: translateY(-2px);  }
+  75%       { transform: translateY(2px);   }
+}
+
+/* Mini title bar */
+#corner-gif::before {
+  content: '📷 CAM.GIF';
+  display: block;
+  width: 100%;
+  background: linear-gradient(to right, var(--w95-titlebar-from), var(--w95-titlebar-to));
+  font-family: var(--sys-font);
+  font-size: 0.7rem;
+  color: #fff;
+  padding: 2px 4px;
+  letter-spacing: 0.03em;
+  text-shadow: 1px 1px 0 #000;
+  border-bottom: 1px solid #000;
+}
+
+.cg-screen {
+  width: 76px;
+  height: 76px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--bevel-sunken);
+  margin: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Scanline overlay on the canvas */
+.cg-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 2px,
+    rgba(0,0,0,0.35) 2px,
+    rgba(0,0,0,0.35) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+#cg-canvas {
+  width: 70px;
+  height: 70px;
+  image-rendering: pixelated;
+}
+
+.cg-label {
+  font-family: var(--sys-font);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  padding: 2px 0 4px;
+  text-align: center;
+  width: 100%;
+  /* blinking text like an old geocities gif label */
+  animation: cgBlink 1.2s step-start infinite;
+}
+
+@keyframes cgBlink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
