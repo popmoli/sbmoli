@@ -73,7 +73,7 @@ function renderProjects(projects) {
                 aria-label="Open: ${escapeAttr(photo.alt)}"
               >
                 <img
-                  src="images/${photo.file}"
+                  src="images/thumbs/${photo.file}"
                   alt="${escapeAttr(photo.alt)}"
                   loading="lazy"
                   onerror="this.parentElement.classList.add('gallery-item-placeholder'); this.style.display='none'; this.parentElement.dataset.label='${escapeAttr(photo.alt)}';"
@@ -105,10 +105,10 @@ function renderAbout() {
         </div>
       </div>
       <div class="w95-window-body about-body">
-        <div class="about-portrait"></div>
+        <img class="about-portrait" src="images/about.jpg" alt="Portrait">
         <div class="about-text">
-          <p>Write a short bio here — who you are, where you're based, what draws you to photography.</p>
-          <p class="about-secondary">Available for editorial, portrait, and landscape commissions.</p>
+          <p>Based in Paris. This site is a record of an ongoing interest in computational structures and simulated worlds, where everything seems real until it isn't.</p>
+          <p class="about-secondary">Available for editorial, portrait, and new ideas.</p>
         </div>
       </div>
     </div>`;
@@ -124,10 +124,9 @@ function renderContact() {
       </div>
       <div class="w95-window-body contact-body">
         <p>// Available for commissions and collaborations</p>
-        <a href="mailto:you@example.com" class="contact-email">you@example.com</a>
+        <a href="https://instagram.com/_shotbymoli" class="contact-email" target="_blank" rel="noopener">@_shotbymoli</a>
         <div class="social-links">
-          <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
-          <a href="https://linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://instagram.com/_shotbymoli" target="_blank" rel="noopener">Instagram</a>
         </div>
       </div>
     </div>`;
