@@ -1,7 +1,8 @@
 /**
  * generate-captions.js
  *
- * Generates AI captions for each photo in data/projects.json using Claude.
+ * Generates AI captions for each photo in data/projects.json using Claude vision.
+ * Each photo is sent as a base64 image so Claude writes text truly inspired by it.
  * Run once locally before deploying:
  *
  *   npm run captions
@@ -10,51 +11,61 @@
  */
 
 import Anthropic from '@anthropic-ai/sdk';
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { execSync } from 'child_process';
+import { tmpdir } from 'os';
 import { config } from 'dotenv';
 
 config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DATA_PATH = join(__dirname, '..', 'data', 'projects.json');
+const IMAGES_DIR = join(__dirname, '..', 'images');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
-async function generateCaptionsForProject(project) {
-  const photoList = project.photos
-    .map((p, i) => `${i + 1}. ${p.alt}`)
-    .join('\n');
-
-  console.log(`  Prompt: "${project.aiPrompt.slice(0, 80)}..."`);
+async function generateCaptionForPhoto(photo, aiPrompt) {
+  const imagePath = join(IMAGES_DIR, photo.file);
+  const tmpDir = mkdtempSync(join(tmpdir(), 'caption-'));
+  const tmpFile = join(tmpDir, 'photo.jpg');
+  try {
+    execSync(`sips -Z 1600 "${imagePath}" --out "${tmpFile}" -s formatOptions 80 2>/dev/null`);
+  } catch {
+    execSync(`sips -Z 1600 "${imagePath}" --out "${tmpFile}" 2>/dev/null`);
+  }
+  const imageData = readFileSync(tmpFile).toString('base64');
+  rmSync(tmpDir, { recursive: true });
 
   const message = await client.messages.create({
     model: 'claude-opus-4-6',
-    max_tokens: 2048,
+    max_tokens: 512,
     messages: [{
       role: 'user',
-      content: `${project.aiPrompt}\n\nPhotos:\n${photoList}\n\nReturn ONLY a valid JSON array of objects, one per photo, in order. Each object must have exactly two keys:\n- "caption": the text (max 280 characters)\n- "song": the suggested song as "Artist - Title"\nNo explanation, no markdown fences, no extra text.`
+      content: [
+        {
+          type: 'image',
+          source: { type: 'base64', media_type: 'image/jpeg', data: imageData }
+        },
+        {
+          type: 'text',
+          text: `${aiPrompt}\n\nReturn ONLY a valid JSON object with exactly two keys:\n- "caption": the text (max 280 characters)\n- "song": the suggested song as "Artist - Title"\nNo explanation, no markdown fences, no extra text.`
+        }
+      ]
     }]
   });
 
-  const raw = message.content[0].text.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
+  const raw = message.content[0].text.trim()
+    .replace(/^```(?:json)?\s*/i, '')
+    .replace(/\s*```$/, '');
 
-  let results;
   try {
-    results = JSON.parse(raw);
+    return JSON.parse(raw);
   } catch (e) {
-    console.error(`  ✗ Failed to parse JSON for "${project.id}". Raw:\n${raw}`);
+    console.error(`  ✗ Failed to parse JSON for "${photo.file}". Raw:\n${raw}`);
     throw e;
   }
-
-  if (results.length !== project.photos.length) {
-    throw new Error(
-      `Result count mismatch for "${project.id}": got ${results.length}, expected ${project.photos.length}`
-    );
-  }
-
-  return results;
 }
 
 async function main() {
@@ -67,12 +78,14 @@ async function main() {
 
   for (const project of projects) {
     console.log(`\nGenerating captions for: ${project.title} (${project.photos.length} photos)`);
-    const results = await generateCaptionsForProject(project);
-    project.photos.forEach((photo, i) => {
-      photo.caption = results[i].caption;
-      photo.songSuggestion = results[i].song;
-    });
-    console.log(`  ✓ ${results.length} captions + song suggestions written`);
+
+    for (const photo of project.photos) {
+      process.stdout.write(`  → ${photo.file} ... `);
+      const result = await generateCaptionForPhoto(photo, project.aiPrompt);
+      photo.caption = result.caption;
+      photo.songSuggestion = result.song;
+      console.log(`✓  [${result.song}]`);
+    }
   }
 
   writeFileSync(DATA_PATH, JSON.stringify(projects, null, 2));
