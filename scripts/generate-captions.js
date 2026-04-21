@@ -31,30 +31,30 @@ async function generateCaptionsForProject(project) {
 
   const message = await client.messages.create({
     model: 'claude-opus-4-6',
-    max_tokens: 1024,
+    max_tokens: 2048,
     messages: [{
       role: 'user',
-      content: `${project.aiPrompt}\n\nPhotos:\n${photoList}\n\nReturn ONLY a valid JSON array of strings (one caption per photo). No explanation, no markdown fences, no extra text.`
+      content: `${project.aiPrompt}\n\nPhotos:\n${photoList}\n\nReturn ONLY a valid JSON array of objects, one per photo, in order. Each object must have exactly two keys:\n- "caption": the text (max 280 characters)\n- "song": the suggested song as "Artist - Title"\nNo explanation, no markdown fences, no extra text.`
     }]
   });
 
-  const raw = message.content[0].text.trim();
+  const raw = message.content[0].text.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
 
-  let captions;
+  let results;
   try {
-    captions = JSON.parse(raw);
+    results = JSON.parse(raw);
   } catch (e) {
     console.error(`  ✗ Failed to parse JSON for "${project.id}". Raw:\n${raw}`);
     throw e;
   }
 
-  if (captions.length !== project.photos.length) {
+  if (results.length !== project.photos.length) {
     throw new Error(
-      `Caption count mismatch for "${project.id}": got ${captions.length}, expected ${project.photos.length}`
+      `Result count mismatch for "${project.id}": got ${results.length}, expected ${project.photos.length}`
     );
   }
 
-  return captions;
+  return results;
 }
 
 async function main() {
@@ -67,9 +67,12 @@ async function main() {
 
   for (const project of projects) {
     console.log(`\nGenerating captions for: ${project.title} (${project.photos.length} photos)`);
-    const captions = await generateCaptionsForProject(project);
-    project.photos.forEach((photo, i) => { photo.caption = captions[i]; });
-    console.log(`  ✓ ${captions.length} captions written`);
+    const results = await generateCaptionsForProject(project);
+    project.photos.forEach((photo, i) => {
+      photo.caption = results[i].caption;
+      photo.songSuggestion = results[i].song;
+    });
+    console.log(`  ✓ ${results.length} captions + song suggestions written`);
   }
 
   writeFileSync(DATA_PATH, JSON.stringify(projects, null, 2));
