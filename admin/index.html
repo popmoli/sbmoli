@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — sbmoli</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=VT323&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../win95.css">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --text: #f0f0f0;
+      --text-muted: #777;
+      --accent: #FF2D78;
+      --sys-font: 'VT323', monospace;
+      --head-font: 'Anton', sans-serif;
+      --body-font: 'Space Grotesk', sans-serif;
+      --bevel-raised: 2px 2px 0 #fff, -2px -2px 0 #888, 2px -2px 0 #888, -2px 2px 0 #fff,
+                      4px 4px 0 #444, -4px -4px 0 #dfdfdf;
+      --bevel-sunken: inset 2px 2px 0 #888, inset -2px -2px 0 #fff,
+                      inset 2px -2px 0 #fff, inset -2px 2px 0 #888;
+      --w95-bg: #c0c0c0;
+      --w95-titlebar-from: var(--accent, #000080);
+      --w95-titlebar-to: #1084d0;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body-font);
+      min-height: 100vh;
+      padding: 2rem 1rem 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    /* ── Top bar ── */
+    .top-bar {
+      width: 100%;
+      max-width: 680px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .top-bar h1 {
+      font-family: var(--head-font);
+      font-size: 2rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    .link-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--sys-font);
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .link-btn:hover { color: var(--text); }
+
+    /* ── Panels ── */
+    .panel { width: 100%; max-width: 680px; }
+    [hidden] { display: none !important; }
+
+    /* ── Form elements ── */
+    .field { display: flex; flex-direction: column; gap: 5px; }
+
+    label {
+      font-family: var(--sys-font);
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    input[type="text"],
+    input[type="password"],
+    select {
+      background: #111;
+      border: 1px solid #333;
+      color: var(--text);
+      font-family: var(--body-font);
+      font-size: 0.9rem;
+      padding: 7px 10px;
+      outline: none;
+      width: 100%;
+    }
+    input:focus, select:focus { border-color: var(--accent); }
+
+    small { color: var(--text-muted); font-size: 0.78rem; line-height: 1.5; }
+
+    /* ── Buttons ── */
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 11px 28px;
+      font-family: var(--head-font);
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      text-transform: uppercase;
+      align-self: flex-start;
+    }
+    .btn-primary:disabled { opacity: 0.35; cursor: default; }
+    .btn-primary:not(:disabled):hover { background: #e0255f; }
+
+    /* ── Window body padding ── */
+    .w95-window-body.padded {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    /* ── Gallery row ── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 520px) { .two-col { grid-template-columns: 1fr; } }
+
+    /* ── Drop zone ── */
+    .drop-zone {
+      border: 2px dashed #2a2a2a;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      position: relative;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .drop-zone.hover {
+      border-color: var(--accent);
+      background: rgba(255,45,120,0.04);
+    }
+    .drop-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+    }
+    .drop-zone-label {
+      font-family: var(--sys-font);
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .drop-zone-label span {
+      display: block;
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    /* ── Preview ── */
+    #preview-img {
+      width: 100%;
+      max-height: 280px;
+      object-fit: cover;
+      display: none;
+    }
+
+    /* ── Caption preview ── */
+    #caption-preview {
+      display: none;
+      padding: 1rem 1.2rem;
+      background: #0e0e0e;
+      border-left: 3px solid var(--accent);
+      font-family: var(--sys-font);
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #ddd;
+    }
+    #caption-preview::before {
+      content: '> ';
+      color: var(--accent);
+    }
+
+    /* ── Status bar ── */
+    #status {
+      font-family: var(--sys-font);
+      font-size: 1rem;
+      transition: color 0.2s;
+    }
+    #status.ok    { color: #4cff91; }
+    #status.error { color: #ff6b6b; }
+
+    /* ── Divider ── */
+    .sep { height: 1px; background: #1e1e1e; }
+
+    /* ── Progress steps ── */
+    #progress-steps {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .step {
+      font-family: var(--sys-font);
+      font-size: 1rem;
+      color: var(--text-muted);
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .step::before { content: '  '; }
+    .step.active { color: var(--text); }
+    .step.active::before { content: '▶ '; color: var(--accent); }
+    .step.done { color: #4cff91; }
+    .step.done::before { content: '✓ '; }
+    .step.err { color: #ff6b6b; }
+    .step.err::before { content: '✗ '; }
+  </style>
+</head>
+<body>
+
+  <div class="top-bar">
+    <h1>ADMIN.EXE</h1>
+    <button class="link-btn" id="btn-settings">⚙ settings</button>
+  </div>
+
+  <!-- ── Setup panel ── -->
+  <div id="setup-panel" class="panel">
+    <div class="w95-window">
+      <div class="w95-titlebar" style="--window-accent:#FF2D78">
+        <span class="w95-titlebar-title">🔑&nbsp;Setup.txt</span>
+      </div>
+      <div class="w95-window-body padded">
+        <div class="field">
+          <label>GitHub Personal Access Token</label>
+          <input type="password" id="input-gh-token" placeholder="ghp_...">
+          <small>
+            github.com → Settings → Developer settings → Personal access tokens (classic) → repo scope
+          </small>
+        </div>
+        <div class="field">
+          <label>Anthropic API Key</label>
+          <input type="password" id="input-anthropic-key" placeholder="sk-ant-...">
+          <small>console.anthropic.com → API Keys</small>
+        </div>
+        <button class="btn-primary" id="btn-save-creds">SAVE &amp; CONNECT</button>
+        <div id="setup-error" style="color:#ff6b6b; font-family:var(--sys-font); font-size:1rem;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Main panel ── -->
+  <div id="main-panel" class="panel" hidden>
+    <div class="w95-window">
+      <div class="w95-titlebar" style="--window-accent:#FF2D78">
+        <span class="w95-titlebar-title">📷&nbsp;Upload Photo</span>
+        <div class="w95-titlebar-controls">
+          <button class="w95-btn" tabindex="-1">_</button>
+          <button class="w95-btn" tabindex="-1">&#9633;</button>
+        </div>
+      </div>
+
+      <div class="w95-window-body padded">
+
+        <!-- Gallery selection -->
+        <div class="two-col">
+          <div class="field">
+            <label>Add to gallery</label>
+            <select id="gallery-select"></select>
+          </div>
+          <div class="field">
+            <label>Or create new gallery</label>
+            <input type="text" id="new-gallery-name" placeholder="e.g. Tokyo Nights">
+          </div>
+        </div>
+
+        <div class="sep"></div>
+
+        <!-- Drop zone -->
+        <div class="drop-zone" id="drop-zone">
+          <input type="file" id="file-input" accept="image/jpeg,image/jpg,image/png">
+          <div class="drop-zone-label">
+            Drop photo here or click to browse
+            <span>JPEG recommended</span>
+          </div>
+        </div>
+
+        <!-- Preview -->
+        <img id="preview-img" alt="Preview">
+
+        <!-- Caption preview (shown after generation) -->
+        <div id="caption-preview"></div>
+
+        <!-- Progress steps (shown during upload) -->
+        <div id="progress-steps">
+          <div class="step" id="step-resize">Resizing image</div>
+          <div class="step" id="step-caption">Generating BEE caption</div>
+          <div class="step" id="step-upload-full">Uploading photo</div>
+          <div class="step" id="step-upload-thumb">Uploading thumbnail</div>
+          <div class="step" id="step-json">Updating gallery</div>
+        </div>
+
+        <!-- Upload button -->
+        <button class="btn-primary" id="btn-upload" disabled>UPLOAD &amp; GENERATE CAPTION</button>
+
+      </div>
+
+      <div class="w95-statusbar">
+        <span class="w95-statusbar-pane" id="status">Ready</span>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const REPO   = 'popmoli/sbmoli';
+  const BRANCH = 'main';
+  const GH_API = 'https://api.github.com';
+  const CLAUDE_API = 'https://api.anthropic.com/v1/messages';
+  const BEE_PROMPT = 'Generate a Bret Easton Ellis style short text inspired by the picture it is attached to. Max characters 280.';
+
+  let ghToken      = localStorage.getItem('admin_gh_token')      || '';
+  let anthropicKey = localStorage.getItem('admin_anthropic_key') || '';
+  let projects     = [];
+  let projectsSha  = '';
+  let selectedFile = null;
+
+  // ── Boot ────────────────────────────────────────────────────────
+
+  async function init() {
+    if (!ghToken || !anthropicKey) { showSetup(); return; }
+    try {
+      await loadProjects();
+      showMain();
+    } catch (e) {
+      showSetup('Could not connect — check your token.');
+    }
+  }
+
+  function showSetup(err) {
+    document.getElementById('setup-panel').hidden = false;
+    document.getElementById('main-panel').hidden  = true;
+    document.getElementById('input-gh-token').value      = ghToken;
+    document.getElementById('input-anthropic-key').value = anthropicKey;
+    if (err) document.getElementById('setup-error').textContent = err;
+  }
+
+  function showMain() {
+    document.getElementById('setup-panel').hidden = true;
+    document.getElementById('main-panel').hidden  = false;
+    populateGallerySelect();
+    setStatus('Ready');
+  }
+
+  // ── Credentials ─────────────────────────────────────────────────
+
+  document.getElementById('btn-save-creds').addEventListener('click', async () => {
+    const t = document.getElementById('input-gh-token').value.trim();
+    const k = document.getElementById('input-anthropic-key').value.trim();
+    if (!t || !k) { document.getElementById('setup-error').textContent = 'Both keys required.'; return; }
+    ghToken      = t;
+    anthropicKey = k;
+    localStorage.setItem('admin_gh_token',      ghToken);
+    localStorage.setItem('admin_anthropic_key', anthropicKey);
+    document.getElementById('setup-error').textContent = '';
+    try {
+      await loadProjects();
+      showMain();
+    } catch (e) {
+      document.getElementById('setup-error').textContent = 'Connection failed: ' + e.message;
+    }
+  });
+
+  document.getElementById('btn-settings').addEventListener('click', () => showSetup());
+
+  // ── GitHub helpers ───────────────────────────────────────────────
+
+  async function ghGet(path) {
+    const res = await fetch(`${GH_API}/repos/${REPO}/contents/${path}`, {
+      headers: { Authorization: `token ${ghToken}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (!res.ok) throw new Error(`GET ${path}: ${res.status}`);
+    return res.json();
+  }
+
+  async function ghPut(path, base64Content, message, sha) {
+    const body = { message, content: base64Content, branch: BRANCH };
+    if (sha) body.sha = sha;
+    const res = await fetch(`${GH_API}/repos/${REPO}/contents/${path}`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `token ${ghToken}`,
+        Accept: 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(`PUT ${path}: ${res.status} — ${err.message || 'unknown error'}`);
+    }
+    return res.json();
+  }
+
+  async function loadProjects() {
+    const data = await ghGet('data/projects.json');
+    projectsSha = data.sha;
+    projects    = JSON.parse(atob(data.content.replace(/\s/g, '')));
+  }
+
+  // ── Gallery select ───────────────────────────────────────────────
+
+  function populateGallerySelect() {
+    const sel = document.getElementById('gallery-select');
+    sel.innerHTML = projects.map(p =>
+      `<option value="${p.id}">${p.title}</option>`
+    ).join('');
+  }
+
+  // ── Drop zone ────────────────────────────────────────────────────
+
+  const dropZone  = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+  const previewEl = document.getElementById('preview-img');
+  const btnUpload = document.getElementById('btn-upload');
+
+  fileInput.addEventListener('change', () => fileInput.files[0] && handleFileSelect(fileInput.files[0]));
+
+  dropZone.addEventListener('dragover',  e => { e.preventDefault(); dropZone.classList.add('hover'); });
+  dropZone.addEventListener('dragleave', ()  => dropZone.classList.remove('hover'));
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('hover');
+    if (e.dataTransfer.files[0]) handleFileSelect(e.dataTransfer.files[0]);
+  });
+
+  function handleFileSelect(file) {
+    if (!file.type.startsWith('image/')) { setStatus('Please drop a JPEG image.', 'error'); return; }
+    selectedFile = file;
+    previewEl.src = URL.createObjectURL(file);
+    previewEl.style.display = 'block';
+    document.getElementById('caption-preview').style.display = 'none';
+    document.getElementById('progress-steps').style.display = 'none';
+    btnUpload.disabled = false;
+    setStatus(file.name + '  (' + (file.size / 1024 / 1024).toFixed(1) + ' MB)');
+  }
+
+  // ── Image resize (client-side) ───────────────────────────────────
+
+  function resizeToBase64(file, maxDim, quality) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      const url = URL.createObjectURL(file);
+      img.onload = () => {
+        const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+        const w = Math.round(img.width  * scale);
+        const h = Math.round(img.height * scale);
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        URL.revokeObjectURL(url);
+        canvas.toBlob(blob => {
+          if (!blob) return reject(new Error('Canvas resize failed'));
+          const reader = new FileReader();
+          reader.onload  = () => resolve(reader.result.split(',')[1]);
+          reader.onerror = reject;
+          reader.readAsDataURL(blob);
+        }, 'image/jpeg', quality);
+      };
+      img.onerror = reject;
+      img.src = url;
+    });
+  }
+
+  // ── Claude caption ───────────────────────────────────────────────
+
+  async function generateCaption(imageBase64, prompt) {
+    const res = await fetch(CLAUDE_API, {
+      method: 'POST',
+      headers: {
+        'x-api-key':           anthropicKey,
+        'anthropic-version':   '2023-06-01',
+        'content-type':        'application/json'
+      },
+      body: JSON.stringify({
+        model:      'claude-opus-4-6',
+        max_tokens: 512,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: 'image/jpeg', data: imageBase64 } },
+            { type: 'text',  text: prompt + '\n\nReturn ONLY a JSON object: {"caption":"..."}. No markdown fences.' }
+          ]
+        }]
+      })
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error('Claude API error: ' + (err.error?.message || res.status));
+    }
+    const data = await res.json();
+    const raw  = data.content[0].text.trim().replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '');
+    return JSON.parse(raw).caption;
+  }
+
+  // ── Upload orchestration ─────────────────────────────────────────
+
+  btnUpload.addEventListener('click', handleUpload);
+
+  function stepState(id, state) {
+    document.getElementById(id).className = 'step ' + state;
+  }
+
+  async function handleUpload() {
+    if (!selectedFile) return;
+
+    btnUpload.disabled = true;
+    document.getElementById('caption-preview').style.display = 'none';
+
+    // Show progress steps
+    const stepsEl = document.getElementById('progress-steps');
+    stepsEl.style.display = 'flex';
+    ['step-resize','step-caption','step-upload-full','step-upload-thumb','step-json']
+      .forEach(id => stepState(id, ''));
+
+    // Resolve gallery
+    const newName   = document.getElementById('new-gallery-name').value.trim();
+    const galleryId = newName
+      ? newName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '')
+      : document.getElementById('gallery-select').value;
+    const galleryTitle = newName || (projects.find(p => p.id === galleryId)?.title ?? galleryId);
+    const aiPrompt     = projects.find(p => p.id === galleryId)?.aiPrompt ?? BEE_PROMPT;
+
+    const filename  = selectedFile.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+    const filePath  = `images/${galleryId}/${filename}`;
+    const thumbPath = `images/thumbs/${galleryId}/${filename}`;
+
+    try {
+      // Step 1 — resize
+      stepState('step-resize', 'active');
+      setStatus('Resizing…');
+      const [fullB64, thumbB64] = await Promise.all([
+        resizeToBase64(selectedFile, 1800, 0.82),
+        resizeToBase64(selectedFile,  900, 0.78)
+      ]);
+      stepState('step-resize', 'done');
+
+      // Step 2 — caption
+      stepState('step-caption', 'active');
+      setStatus('Asking Claude…');
+      const caption = await generateCaption(thumbB64, aiPrompt);
+      stepState('step-caption', 'done');
+
+      // Show caption immediately
+      const capEl = document.getElementById('caption-preview');
+      capEl.textContent = caption;
+      capEl.style.display = 'block';
+
+      // Step 3 — upload full image
+      stepState('step-upload-full', 'active');
+      setStatus('Uploading photo…');
+      let existingSha;
+      try { existingSha = (await ghGet(filePath)).sha; } catch {}
+      await ghPut(filePath, fullB64, `feat: add ${filename} to ${galleryId}`, existingSha);
+      stepState('step-upload-full', 'done');
+
+      // Step 4 — upload thumb
+      stepState('step-upload-thumb', 'active');
+      setStatus('Uploading thumbnail…');
+      let existingThumbSha;
+      try { existingThumbSha = (await ghGet(thumbPath)).sha; } catch {}
+      await ghPut(thumbPath, thumbB64, `feat: add thumb ${filename}`, existingThumbSha);
+      stepState('step-upload-thumb', 'done');
+
+      // Step 5 — update projects.json
+      stepState('step-json', 'active');
+      setStatus('Updating gallery data…');
+      await loadProjects(); // refresh SHA before writing
+
+      let project = projects.find(p => p.id === galleryId);
+      if (!project) {
+        project = { id: galleryId, title: galleryTitle, description: '', aiPrompt, photos: [] };
+        projects.push(project);
+      }
+      const photoNumber = project.photos.length + 1;
+      project.photos.push({
+        file:    `${galleryId}/${filename}`,
+        alt:     `${galleryTitle} ${photoNumber}`,
+        caption
+      });
+
+      const jsonStr  = JSON.stringify(projects, null, 2);
+      const bytes    = new TextEncoder().encode(jsonStr);
+      let binary = '';
+      bytes.forEach(b => binary += String.fromCharCode(b));
+      const jsonB64  = btoa(binary);
+
+      await ghPut('data/projects.json', jsonB64, `feat: add ${filename} to ${galleryTitle}`, projectsSha);
+      stepState('step-json', 'done');
+
+      setStatus('✓ Done — site deploying in ~60s', 'ok');
+
+      // Reset form
+      selectedFile = null;
+      previewEl.src = '';
+      previewEl.style.display = 'none';
+      fileInput.value = '';
+      document.getElementById('new-gallery-name').value = '';
+      await loadProjects();
+      populateGallerySelect();
+
+    } catch (e) {
+      // Mark active step as errored
+      ['step-resize','step-caption','step-upload-full','step-upload-thumb','step-json']
+        .forEach(id => {
+          if (document.getElementById(id).classList.contains('active'))
+            stepState(id, 'err');
+        });
+      setStatus(e.message, 'error');
+      btnUpload.disabled = false;
+    }
+  }
+
+  // ── Status helper ────────────────────────────────────────────────
+
+  function setStatus(msg, type) {
+    const el = document.getElementById('status');
+    el.textContent = msg;
+    el.className   = 'w95-statusbar-pane' + (type ? ' ' + type : '');
+  }
+
+  // ── Boot ─────────────────────────────────────────────────────────
+  init();
+</script>
+</body>
+</html>
