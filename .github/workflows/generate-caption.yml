@@ -1,0 +1,39 @@
+name: Generate Caption
+
+on:
+  workflow_dispatch:
+    inputs:
+      gallery_id:
+        description: Gallery ID (e.g. golden-hour)
+        required: true
+      filename:
+        description: Photo filename (e.g. R0590473.jpg)
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  caption:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm install
+
+      - name: Generate caption
+        run: node scripts/caption-single.js "${{ inputs.gallery_id }}" "${{ inputs.filename }}"
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Commit caption
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/projects.json
+          git diff --staged --quiet || git commit -m "chore: caption ${{ inputs.gallery_id }}/${{ inputs.filename }}"
+          git push
