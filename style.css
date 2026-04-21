@@ -485,17 +485,23 @@ body::after {
 .lb-caption-box {
   flex: 1;
   overflow-y: auto;
+  padding: 1.25rem 1rem;
+  border-top: 1px solid #333;
 }
 
 .lb-caption-box p {
-  font-family: var(--body-font);
-  font-size: 0.95rem;
-  line-height: 1.8;
-  color: var(--text);
-  font-style: italic;
+  font-family: var(--sys-font);
+  font-size: 1.15rem;
+  line-height: 1.65;
+  color: #e8e8e8;
+  letter-spacing: 0.01em;
 }
 
-.lb-spotify-box { flex-shrink: 0; }
+.lb-caption-box p::before {
+  content: '> ';
+  color: var(--window-accent, #FF2D78);
+  font-weight: bold;
+}
 
 /* ── Corner GIF widget ──────────────────────────────────────── */
 

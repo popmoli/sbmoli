@@ -67,7 +67,6 @@ function renderProjects(projects) {
                 data-project="${project.id}"
                 data-index="${i}"
                 data-caption="${escapeAttr(photo.caption)}"
-                data-spotify="${photo.spotifyId}"
                 tabindex="0"
                 role="button"
                 aria-label="Open: ${escapeAttr(photo.alt)}"
@@ -156,7 +155,6 @@ function initLightbox(projects) {
   const lightbox  = document.getElementById('lightbox');
   const lbImg     = document.getElementById('lb-img');
   const lbCaption = document.getElementById('lb-caption');
-  const lbSpotify = document.getElementById('lb-spotify');
   const lbStatus  = document.getElementById('lb-status');
   const lbTitle   = document.querySelector('.lb-title-text');
   let current = 0;
@@ -175,9 +173,6 @@ function initLightbox(projects) {
     // Tint title bar to project accent
     document.querySelector('.lb-titlebar').style.setProperty('--window-accent', accent + '99');
 
-    const newSrc = `https://open.spotify.com/embed/track/${photo.spotifyId}?utm_source=generator&theme=0`;
-    if (lbSpotify.src !== newSrc) lbSpotify.src = newSrc;
-
     lightbox.classList.add('active');
     lightbox.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -187,7 +182,6 @@ function initLightbox(projects) {
     lightbox.classList.remove('active');
     lightbox.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    lbSpotify.src = '';
   }
 
   function prev() { openAt((current - 1 + allItems.length) % allItems.length); }
