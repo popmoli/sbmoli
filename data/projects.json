@@ -2,7 +2,6 @@
   {
     "id": "golden-hour",
     "title": "Nights",
-    "description": "Portraits and landscapes shot in the last hour of daylight.",
     "aiPrompt": "Generate a Bret Easton Ellis style short text inspired by the picture it is attached to. Max characters 280.",
     "photos": [
       {
@@ -45,7 +44,6 @@
   {
     "id": "midnight-city",
     "title": "Nocturnal Animals",
-    "description": "Long-exposure urban photography shot between midnight and 4am.",
     "aiPrompt": "Generate a Bret Easton Ellis style short text inspired by the picture it is attached to. Max characters 280.",
     "photos": [
       {

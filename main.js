@@ -59,8 +59,7 @@ function renderProjects(projects) {
           </div>
         </div>
         <div class="w95-window-body">
-          <p class="project-description">${project.description}</p>
-          <div class="gallery-grid">
+<div class="gallery-grid">
             ${project.photos.map((photo, i) => `
               <figure
                 class="gallery-item"

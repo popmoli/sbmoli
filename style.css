@@ -220,13 +220,6 @@ body::after {
   padding-bottom: 6px;
 }
 
-.project-description {
-  font-family: var(--sys-font);
-  font-size: 1.05rem;
-  color: var(--text-muted);
-  margin-bottom: 14px;
-  letter-spacing: 0.04em;
-}
 
 /* No tilt — flat, precise windows */
 .project-section .w95-window {

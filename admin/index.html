@@ -523,7 +523,7 @@
 
       let project = projects.find(p => p.id === galleryId);
       if (!project) {
-        project = { id: galleryId, title: galleryTitle, description: '', aiPrompt, photos: [] };
+        project = { id: galleryId, title: galleryTitle, aiPrompt, photos: [] };
         projects.push(project);
       }
       project.photos.push({
